@@ -15,15 +15,15 @@
   <meta property="og:image" content="https://files.catbox.moe/7fewor.jpg">
   <style>
    :root {
-  --bg-color: #0d1117;
-  --second-bg-color: #161b22;
+  --bg-color: #090d13;
+  --second-bg-color: #111720;
   --text-color: #c9d1d9;
   --main-color: #00ff88;
+  --sidebar-width: 260px;
 }
 
 html {
   scroll-behavior: smooth;
-  overflow-x: hidden;
 }
 
 * {
@@ -32,177 +32,200 @@ html {
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
+
 body {
   background-color: var(--bg-color);
-  background-image: url('https://img1.pixhost.to/images/6988/618746518_rizzhosting.jpg');
+  background-image: linear-gradient(rgba(9, 13, 19, 0.4), rgba(9, 13, 19, 0.4)), url('https://img1.pixhost.to/images/6988/618746518_rizzhosting.jpg');
   background-repeat: no-repeat;
   background-position: top center;
-  background-size: contain;
-  background-attachment: scroll;
+  background-size: cover;
+  background-attachment: fixed;
   color: var(--text-color);
   min-height: 100vh;
-  font-family: 'Poppins', sans-serif;
-  overflow-x: hidden;
+  display: flex;
 }
 
-#preloader {
-  background: var(--bg-color) url('https://i.gifer.com/ZZ5H.gif') no-repeat center center;
-  height: 100vh;
-  width: 100%;
-  position: fixed;
-  z-index: 999;
-}
-
-header {
+/* --- SIDEBAR MENU --- */
+.sidebar {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  padding: 20px 10%;
-  background: var(--second-bg-color);
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: rgba(17, 23, 32, 0.9);
+  backdrop-filter: blur(8px);
+  border-right: 1px solid rgba(0, 255, 136, 0.1);
+  padding: 20px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   z-index: 100;
+  transition: transform 0.3s ease;
 }
 
-.menu-toggle {
-  display: none;
-  font-size: 28px;
+.sidebar-brand {
+  font-size: 22px;
+  font-weight: bold;
   color: var(--main-color);
-  cursor: pointer;
+  margin-bottom: 30px;
+  text-align: center;
+  letter-spacing: 1px;
 }
 
-.navbar {
+.sidebar-menu {
+  list-style: none;
   display: flex;
-  gap: 30px;
-  align-items: center;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.navbar a {
-  font-size: 18px;
+.sidebar-menu a {
+  display: flex;
+  align-items: center;
+  gap: 15px;
   color: var(--text-color);
   text-decoration: none;
-  position: relative;
-  transition: 0.3s;
-  padding: 5px 0;
-}
-
-.navbar a:hover,
-.navbar a.active {
-  color: var(--main-color);
-}
-
-.navbar a::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 0;
-  background-color: var(--main-color);
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 15px;
   transition: 0.3s ease;
 }
 
-.navbar a:hover::after,
-.navbar a.active::after {
-  width: 100%;
-}
-
-.logo {
-  font-size: 25px;
-  font-weight: bold;
+.sidebar-menu a i {
+  font-size: 20px;
   color: var(--main-color);
 }
 
-@media (max-width: 768px) {
-  .menu-toggle {
-    display: block;
-    z-index: 101;
-  }
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+  background: rgba(0, 255, 136, 0.1);
+  color: #fff;
+  border-left: 4px solid var(--main-color);
+}
 
-  .navbar {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background: var(--second-bg-color);
-    flex-direction: column;
-    align-items: flex-start;
-    width: 200px;
-    padding: 20px;
-    transform: translateX(100%);
-    transition: 0.3s ease;
-    box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
-  }
+/* Tombol Toggle Mobile */
+.menu-toggle {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  font-size: 28px;
+  color: var(--main-color);
+  background: var(--second-bg-color);
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 110;
+  border: 1px solid rgba(0, 255, 136, 0.2);
+}
 
-  .navbar.active {
-    transform: translateX(0);
-  }
+/* --- MAIN CONTENT CONTAINER --- */
+.main-content {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  padding: 40px var(--padding-side, 8%);
+  transition: all 0.3s ease;
+}
 
-  .navbar a {
-    margin: 10px 0;
-  }
+#preloader {
+  background: var(--bg-color);
+  height: 100vh;
+  width: 100%;
+  position: fixed;
+  top:0; left:0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(0, 255, 136, 0.1);
+  border-top: 4px solid var(--main-color);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 section {
-  padding: 80px 10%;
-  scroll-margin-top: 80px;
+  padding: 60px 0;
+  scroll-margin-top: 30px;
 }
 
+/* --- HOME SECTION --- */
 .home {
+  min-height: 85vh;
   display: flex;
   align-items: center;
-  height: 100vh;
-  background: url('wallpaper.jpg') no-repeat center center/cover;
 }
 
 .home-content {
-  max-width: 600px;
-  background: rgba(0, 255, 136, 0.05);
-  border-left: 3px solid var(--main-color);
-  padding: 20px 25px;
-  border-radius: 15px;
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
+  max-width: 650px;
+  background: rgba(17, 23, 32, 0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 136, 0.15);
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
-.home-content h1,
-.home-content h3,
+.home-content h3 {
+  font-size: 18px;
+  font-weight: 500;
+  color: #8b949e;
+}
+
+.home-content h1 {
+  font-size: 42px;
+  margin: 5px 0 15px 0;
+  color: #fff;
+}
+
+.home-content .text {
+  color: var(--main-color);
+  font-weight: 600;
+}
+
 .home-content p {
-  margin-bottom: 15px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  color: #aaabb2;
 }
 
-.home-content h3 span {
+/* Info Hari Ulang Tahun */
+.birthday-box {
+  background: rgba(9, 13, 19, 0.6);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  padding: 10px 18px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 25px;
+  font-size: 14px;
+  color: #fff;
+}
+
+.birthday-box i {
   color: var(--main-color);
-}
-
-.btn-box {
-  display: inline-block;
-  padding: 12px 25px;
-  background: var(--main-color);
-  color: #000;
-  font-weight: bold;
-  border-radius: 30px;
-  text-decoration: none;
-  transition: 0.3s;
-  margin-top: 20px;
-}
-
-.btn-box:hover {
-  background: transparent;
-  border: 2px solid var(--main-color);
-  color: var(--main-color);
+  font-size: 18px;
 }
 
 .home-sci {
   display: flex;
   gap: 15px;
-  margin-top: 20px;
 }
 
 .home-sci a {
   width: 45px;
   height: 45px;
-  border: 2px solid var(--main-color);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  background: var(--second-bg-color);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -214,192 +237,262 @@ section {
 
 .home-sci a:hover {
   background: var(--main-color);
-  color: var(--bg-color);
-  transform: scale(1.1);
+  color: #000;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+}
+
+/* --- ABOUT SECTION --- */
+.about {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.about-img img {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 16px;
+  border: 2px solid rgba(0, 255, 136, 0.2);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.about-text {
+  flex: 1;
+  min-width: 300px;
+  background: rgba(17, 23, 32, 0.75);
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 255, 136, 0.1);
 }
 
 .sub-title {
-  font-size: 48px;
-  text-align: center;
-  margin-bottom: 40px;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #fff;
 }
 
 .sub-title span {
   color: var(--main-color);
 }
 
-.about,
-.skills {
+/* --- SKILLS SECTION --- */
+.skills-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.skill-card {
+  background: rgba(17, 23, 32, 0.8);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 12px;
+  transition: 0.3s;
+}
+
+.skill-card:hover {
+  border-color: var(--main-color);
+  transform: translateY(-2px);
+}
+
+.skill-info {
   display: flex;
-  gap: 2rem;
-  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 
-.about-img img {
+.skill-info h3 {
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.skill-info h3 i {
+  color: var(--main-color);
+  font-size: 20px;
+}
+
+.progress-bar-bg {
+  background: #222c3a;
+  height: 8px;
   width: 100%;
-  max-width: 500px;
   border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+  overflow: hidden;
 }
 
+.progress-bar-fill {
+  background: var(--main-color);
+  height: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--main-color);
+}
+
+/* --- PROJECTS & CONTACT --- */
 .services-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 20px;
 }
 
 .services-list div {
-  background: var(--second-bg-color);
-  padding: 20px;
-  border-radius: 10px;
-  border-left: 3px solid var(--main-color);
+  background: rgba(17, 23, 32, 0.8);
+  backdrop-filter: blur(5px);
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 255, 136, 0.1);
   transition: 0.3s;
 }
 
 .services-list div:hover {
-  background: var(--main-color);
-  color: #000;
+  background: rgba(0, 255, 136, 0.05);
+  border-color: var(--main-color);
 }
 
 .services-list div i {
-  font-size: 40px;
-  margin-bottom: 15px;
+  font-size: 35px;
   color: var(--main-color);
+  margin-bottom: 15px;
 }
 
-.services-list div:hover i {
+.btn-box {
+  display: inline-block;
+  padding: 10px 22px;
+  background: transparent;
+  color: var(--main-color);
+  border: 1px solid var(--main-color);
+  font-weight: 500;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.3s;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.btn-box:hover {
+  background: var(--main-color);
   color: #000;
 }
 
-.contact {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.last-text {
-  text-align: center;
-  padding: 20px;
-  background: #0b0f15;
-  color: #888;
-}
-
-.top {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-
-.top i {
-  background: var(--main-color);
-  color: var(--bg-color);
-  padding: 10px;
-  border-radius: 50%;
+.contact-box {
+  background: rgba(17, 23, 32, 0.8);
+  backdrop-filter: blur(5px);
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 255, 136, 0.1);
 }
 
 .contact-icons {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
-  justify-content: flex-start;
   margin-top: 20px;
 }
 
-.contact-icons .social-icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-}
-
-.contact-icons .social-icon a {
-  width: 60px;
-  height: 60px;
-  font-size: 30px;
-  border: 2px solid var(--main-color);
-  border-radius: 50%;
+.social-icon {
   display: flex;
   align-items: center;
-  justify-content: center;
-  color: var(--main-color);
+  gap: 15px;
+  background: rgba(9, 13, 19, 0.5);
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.05);
+  text-decoration: none; /* Biar teks di dalam ga ada garis bawah */
   transition: 0.3s;
-  text-decoration: none;
 }
 
-.contact-icons .social-icon span {
+.social-icon:hover {
+  border-color: var(--main-color);
+  background: rgba(0, 255, 136, 0.05);
+}
+
+.social-icon i {
+  font-size: 24px;
+  color: var(--main-color);
+}
+
+.last-text {
+  text-align: center;
+  padding: 30px 0 10px 0;
+  color: #6e7681;
   font-size: 14px;
-  color: var(--text-color);
-  margin-top: 5px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  margin-top: 40px;
 }
 
-.contact-icons .social-icon a:hover {
-  background: var(--main-color);
-  color: var(--bg-color);
-  transform: scale(1.1);
-}
-#preloader {
-  background: var(--bg-color);
-  height: 100vh;
-  width: 100%;
-  position: fixed;
-  z-index: 999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.spinner {
-  width: 60px;
-  height: 60px;
-  border: 6px solid rgba(0, 255, 136, 0.2);
-  border-top: 6px solid var(--main-color);
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+/* --- RESPONSIVE MEDIA QUERIES --- */
+@media (max-width: 992px) {
+  .menu-toggle {
+    display: block;
+  }
+  
+  .sidebar {
+    transform: translateX(-100%);
+    background: rgba(17, 23, 32, 0.95);
+  }
+  
+  .sidebar.active {
+    transform: translateX(0);
+  }
+  
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 60px 5%;
+  }
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-/* p */
+/* DIUBAH: Disederhanakan agar tidak memblokir fungsi klik di HP */
 a {
-  -webkit-touch-callout: none !important; /* Mematikan menu pop-up di iOS/Safari */
-  -webkit-user-select: none !important;   /* Mematikan seleksi teks */
-  user-select: none !important;
+  -webkit-touch-callout: none;
 }
   </style>
 </head>
 <body>
+
 <div id="preloader">
   <div class="spinner"></div>
 </div>
 
-<header class="header">
-  <div class="menu-toggle" id="menu-toggle">
-    <i class='bx bx-menu'></i>
-  </div>
-  <nav class="navbar" id="navbar">
-    <a href="#" class="active">Home</a>
-    <a href="#about">About</a>
-    <a href="#services">Projects</a>
-    <a href="#skills">Skills</a>
-    <a href="#contact">Contact</a>
-  </nav>
-</header>
+<div class="menu-toggle" id="menu-toggle">
+  <i class='bx bx-menu'></i>
+</div>
 
-  <section class="home">
-    <div class="home-content glass-effect">
-      <h3>🙋Halo saya</h3>
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-brand">OPI STORE</div>
+  <ul class="sidebar-menu">
+    <li><a href="#" class="active"><i class='bx bx-home-alt-2'></i> Utama</a></li>
+    <li><a href="#about"><i class='bx bx-user'></i> Tentang</a></li>
+    <li><a href="#services"><i class='bx bx-code-alt'></i> Project</a></li>
+    <li><a href="#skills"><i class='bx bx-brain'></i> Kemampuan</a></li>
+    <li><a href="#contact"><i class='bx bx-phone'></i> Kontak</a></li>
+  </ul>
+</div>
+
+<div class="main-content">
+
+  <section class="home" id="home">
+    <div class="home-content">
+      <h3>🙋 Halo saya</h3>
       <h1>OPI STORE</h1>
       <h3><span class="text"></span></h3>
-      <p> Jarang Terlihat Bukan Berarti Tak Terlibat Masih Kutunggu Waktu Yang Pas Untuk Kembali Berdansa </p>
-      <div class="home-sci">
-        <a href="https://wa.me/6283166357903"><i class="bx bxl-whatsapp"></i></a>
-        <a href="https://t.me/OPINESIA"><i class="bx bxl-telegram"></i></a>
+      <p>"Jarang Terlihat Bukan Berarti Tak Terlibat, Masih Kutunggu Waktu Yang Pas Untuk Kembali Berdansa"</p>
+      
+      <div class="birthday-box">
+        <i class='bx bx-cake'></i>
+        <span id="countdown-days">Menghitung hari...</span>
       </div>
-      <a href="#contact" class="btn-box">View social media</a>
+
+      <div class="home-sci">
+        <a href="https://wa.me/6283166357903" target="_blank"><i class="bx bxl-whatsapp"></i></a>
+        <a href="https://t.me/OPINESIA" target="_blank"><i class="bx bxl-telegram"></i></a>
+      </div>
     </div>
   </section>
 
@@ -407,23 +500,15 @@ a {
     <div class="about-img">
       <img src="https://files.catbox.moe/zkyzcgx.jpg" alt="About Me">
     </div>
-    <div class="about-text glass-effect">
+    <div class="about-text">
       <div class="sub-title">About <span>Me</span></div>
-      <h4>OPI STORE ͲᎻᎬ ᎻᎬᏞᏞ ᎷϴΝᎪᎡᏟᎻ</h4>
+      <h4 style="color:#fff; margin-bottom:15px;">OPI STORE ͲᎻᎬ ᎻᎬᏞᏞ ᎷϴΝᎪＲᏟᎻ</h4>
       <p style="color: var(--main-color); line-height: 1.8;">
-  👋 Halo, saya <strong> OPI STORE </strong> Developer Website, <strong>OPISTORE</strong> 🤡👌 <br><br>
-  
-  Saya Lahir Di Cirebon Jawa Barat Pada Tanggal 1 Bulan Juni 2011
-  Saat Ini Saya Berusia 15 Tahun <br><br>
-  
-  Saat Ini Saya Adalah Siswa Kelas 3   
-  Kalo Sekolah Umum Saya Kelas 9.<br><br>
-  
- Hobi Saya Adalah Mempelajari Hal-hal Baru Terutama Di Bidang Teknologi, Coding Dan Dunia Digital. Saya Juga Suka Membaca Novel Jika Gabut, Dan Juga Yang Pasti Saya Suka Nonton Donghua🗿<br><br>
-  
-Wanita Favorit? Tentu Saja Cewe Saya Dan Ibu Saya 😊
-</p>
-      <a href="#contact" class="btn-box">Media sosial</a>
+        👋 Halo, saya <strong>OPI STORE</strong> Developer Website. <br><br>
+        Saya Lahir Di Cirebon, Jawa Barat, Pada Tanggal 1 Bulan Juni 2011 (1 Juni 2011). Saat Ini Saya Berusia 15 Tahun Dan Merupakan Siswa Kelas 9.<br><br>
+        Hobi Saya Adalah Mempelajari Hal-hal Baru Terutama Di Bidang Teknologi, Coding Dan Dunia Digital. Saya Juga Suka Membaca Novel Jika Gabut, Dan Juga Yang Pasti Saya Suka Nonton Donghua 🗿 <br><br>
+        Wanita Favorit? Tentu Saja Cewe Saya Dan Ibu Saya 😊
+      </p>
     </div>
   </section>
 
@@ -433,85 +518,189 @@ Wanita Favorit? Tentu Saja Cewe Saya Dan Ibu Saya 😊
       <div>
         <i class='bx bxs-bot'></i>
         <h2>vitality</h2>
-        <p>Developer Website</p>
-        <a href="https://wa.me/6283166357903" class="btn-box">Contact Developer</a>
+        <p style="margin-top:10px; color:#aaabb2;">Developer Website.</p>
+        <a href="https://wa.me/6283166357903" target="_blank" class="btn-box">Contact Developer</a>
       </div>
     </div>
   </section>
 
   <section class="skills" id="skills">
-    <div class="sub-title">My <span>Skills</span></div>
-    <div class="services-list">
-      <div><i class='bx bxl-javascript'></i><h3>NodeJS</h3><p>Mampu Membuat Dan Mengembangkan Sebuah Bot Telegram Atau WhatsApp</p></div>
-      <div><i class='bx bxl-python'></i><h3>Python</h3><p>Mampu Membangun Logika Cerdas Untuk Bot Whatsapp atau Telegram Termasuk Fitur AI & Otomatis Backend</p></div>
-      <div><i class='bx bxl-html5'></i><h3>HTML</h3><p>Mampu membagun struktur website dengan cukup baik</p></div>
-      <div><i class='bx bxl-css3'></i><h3>CSS</h3><p>Mampu Membuat Tampilan Website Yang Modern Dan Menarik</p></div>
+    <div class="sub-title">Skills & <span>Kemampuan</span></div>
+    <div class="skills-container">
+      
+      <div class="skill-card">
+        <div class="skill-info">
+          <h3><i class='bx bxl-javascript'></i> NodeJS</h3>
+          <span>85%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" style="width: 85%;"></div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-info">
+          <h3><i class='bx bxl-python'></i> Python</h3>
+          <span>75%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" style="width: 75%;"></div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-info">
+          <h3><i class='bx bxl-html5'></i> HTML</h3>
+          <span>90%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" style="width: 90%;"></div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-info">
+          <h3><i class='bx bxl-css3'></i> CSS</h3>
+          <span>80%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" style="width: 80%;"></div>
+        </div>
+      </div>
+
     </div>
   </section>
 
-<section class="contact" id="contact">
-  <div class="contact-text glass-effect">
-    <div class="sub-title">
-      <i class='bx bxs-user-detail'></i> My <span>Medsos</span>
+  <section class="contact" id="contact">
+    <div class="sub-title">My <span>Medsos</span></div>
+    <div class="contact-box">
+      <h4 style="color:#fff; margin-bottom:10px;">Jangan Ragu Untuk Menghubungi Saya</h4>
+      <p style="color:#aaabb2;">Klik salah satu sosial media di bawah ini:</p>
+      
+      <div class="contact-icons">
+        <a href="https://wa.me/6283166357903" target="_blank" class="social-icon">
+          <i class="bx bxl-whatsapp"></i>
+          <div>
+            <div style="color:#fff; font-weight:500;">WhatsApp</div>
+            <div style="font-size:13px; color:#6e7681;">Hubungi WhatsApp</div>
+          </div>
+        </a>
+        
+        <a href="https://t.me/OPINESIA" target="_blank" class="social-icon">
+          <i class="bx bxl-telegram"></i>
+          <div>
+            <div style="color:#fff; font-weight:500;">Telegram</div>
+            <div style="font-size:13px; color:#6e7681;">Hubungi Telegram</div>
+          </div>
+        </a>
+      </div>
     </div>
-    <h4>Jangan Ragu Untuk Menghubungi Saya</h4>
-    <p>Click Icon Di Bawah Ini Untuk Menghubungi Saya</p>
+  </section>
 
-    <div class="contact-icons">
-      <div class="social-icon">
-        <a href="https://wa.me/6283166357903"><i class="bx bxl-whatsapp"></i></a>
-        <span>WhatsApp</span>
-      </div>
-      <div class="social-icon">
-        <a href="https://t.me/OPINESIA"><i class="bx bxl-telegram"></i></a>
-        <span>Telegram</span>
-      </div>
-    </div>
+  <div class="last-text">
+    <p>© 2026 OPI STORE. All Rights Reserved.</p>
   </div>
-</section>
 
-<div class="last-text"><p>Create By OPI STORE</p></div>
-<a href="#" class="top"><i class='bx bx-up-arrow-alt'></i></a>
+</div>
 
 <script>
+  // EFEK KETIK KATA (Typed.js)
   const typed = new Typed(".text", {
     strings: [
-      " Hai, Saya Edwin...",
+      " Hai, Nama Saya Edwin...", 
+      " Saya Seorang Pelajar | Developer Website | Indonesia",
       " Developer Website TopUp Game Tapi Ga Jadi Jadi🗿😎",
       " Emm Gw Suka Mie Ayam 😩"
     ],
-    typeSpeed: 85,
-    backSpeed: 80,
-    backDelay: 85,
+    typeSpeed: 70,
+    backSpeed: 50,
+    backDelay: 1000,
     loop: true
   });
 
+  // HILANGKAN PRELOADER
   window.addEventListener("load", function () {
     document.getElementById("preloader").style.display = "none";
   });
 
+  // ANIMASI SCROLL REVEAL
   ScrollReveal({
     reset: false,
-    distance: '50px',
-    duration: 1500,
-    delay: 300,
+    distance: '40px',
+    duration: 1200,
+    delay: 200,
     easing: 'ease-in-out'
   });
 
-  ScrollReveal().reveal('.home-content', { origin: 'top', interval: 200 });
-  ScrollReveal().reveal('.about-img', { origin: 'left' });
+  ScrollReveal().reveal('.home-content', { origin: 'left' });
+  ScrollReveal().reveal('.about-img', { origin: 'bottom' });
   ScrollReveal().reveal('.about-text', { origin: 'right' });
-  ScrollReveal().reveal('.services-list div', { origin: 'bottom', interval: 200 });
-  ScrollReveal().reveal('.skills .services-list div', { origin: 'bottom', interval: 200 });
-  ScrollReveal().reveal('.contact-text', { origin: 'left' });
+  ScrollReveal().reveal('.services-list div', { origin: 'bottom', interval: 150 });
+  ScrollReveal().reveal('.skill-card', { origin: 'bottom', interval: 150 });
+  ScrollReveal().reveal('.contact-box', { origin: 'bottom' });
 
+  // SIDEBAR NAV INTERACTION
   const menuToggle = document.getElementById('menu-toggle');
-  const navbar = document.getElementById('navbar');
-  menuToggle.addEventListener('click', () => {
-    navbar.classList.toggle('active');
+  const sidebar = document.getElementById('sidebar');
+  
+  menuToggle.addEventListener('click', (e) => {
+    sidebar.classList.toggle('active');
+    e.stopPropagation();
   });
 
-  // MEMBLOKIR MENU BAWAN CHROME (SALIN, BUKA TAB BARU, DLL) DI HP UNTUK SEMUA ELEMEN TAUTAN (A)
+  document.addEventListener('click', (e) => {
+    if(!sidebar.contains(e.target) && e.target !== menuToggle) {
+      sidebar.classList.remove('active');
+    }
+  });
+
+  // HIGHLIGHT NAV ACTIVE ON SCROLL
+  const sections = document.querySelectorAll('section');
+  const navLi = document.querySelectorAll('.sidebar-menu a');
+  
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      const sectionTop = section.offsetTop;
+      if (pageYOffset >= sectionTop - 150) {
+        current = section.getAttribute('id');
+      }
+    });
+    navLi.forEach(a => {
+      a.classList.remove('active');
+      if (a.getAttribute('href').includes(current)) {
+        a.classList.add('active');
+      }
+    });
+  });
+
+  // LOGIKA HITUNG HARI (1 JUNI)
+  function updateBirthdayDays() {
+    const hariIni = new Date();
+    const tanggalSekarang = new Date(hariIni.getFullYear(), hariIni.getMonth(), hariIni.getDate());
+    let tahunTarget = tanggalSekarang.getFullYear();
+    
+    let targetUlangTahun = new Date(tahunTarget, 5, 1); 
+    
+    if (tanggalSekarang > targetUlangTahun) {
+      targetUlangTahun = new Date(tahunTarget + 1, 5, 1);
+    }
+    
+    const selisihWaktu = targetUlangTahun - tanggalSekarang;
+    const sisaHari = Math.ceil(selisihWaktu / (1000 * 60 * 60 * 24));
+    
+    const displayElement = document.getElementById("countdown-days");
+    
+    if (sisaHari === 0) {
+      displayElement.innerHTML = "🎉 Selamat Ulang Tahun Edwin! 🥳";
+    } else {
+      displayElement.innerHTML = `${sisaHari} hari menuju ulang tahun!`;
+    }
+  }
+
+  updateBirthdayDays();
+
+  // DIUBAH: Script ini sekarang hanya mematikan klik kanan (context menu), bukan fungsi tap/klik utama.
   document.querySelectorAll('a').forEach(link => {
     link.addEventListener('contextmenu', function(e) {
       e.preventDefault();
